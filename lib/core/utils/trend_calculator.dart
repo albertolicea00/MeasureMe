@@ -48,4 +48,34 @@ class TrendCalculator {
       currentDate: last.date,
     );
   }
+
+  /// Given a series in newest-first order, finds the point closest to
+  /// (but not after) `latest.date - period` and returns a [TrendResult]
+  /// comparing it to the newest point. Falls back to the oldest available
+  /// point if nothing is that old yet. Used for dashboard copy like
+  /// "-2.5 cm since last month".
+  static TrendResult? overPeriod(
+    List<({DateTime date, double value})> seriesNewestFirst,
+    Duration period,
+  ) {
+    if (seriesNewestFirst.length < 2) return null;
+    final latest = seriesNewestFirst.first;
+    final cutoff = latest.date.subtract(period);
+
+    var comparison = seriesNewestFirst.last;
+    for (final point in seriesNewestFirst.skip(1)) {
+      if (!point.date.isAfter(cutoff)) {
+        comparison = point;
+        break;
+      }
+      comparison = point;
+    }
+
+    return TrendResult(
+      startingValue: comparison.value,
+      currentValue: latest.value,
+      startingDate: comparison.date,
+      currentDate: latest.date,
+    );
+  }
 }
