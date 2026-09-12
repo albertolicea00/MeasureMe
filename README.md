@@ -1,4 +1,4 @@
-# Measure Me
+# MeasureMe
 
 [![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)](https://dart.dev/)
@@ -10,7 +10,7 @@ A simple cross-platform app for keeping track of your body measurements, clothin
 
 Built with **Flutter** and designed to be a lightweight personal reference for knowing your measurements and sizes wherever you go.
 
-## Features
+## ✨ Features
 
 - 📏 Track body measurements
 - 📈 Keep a history of measurements over time
@@ -23,7 +23,7 @@ Built with **Flutter** and designed to be a lightweight personal reference for k
 - 💾 Local-first data storage
 - 📱 iOS and Android support
 
-## Measurements
+## 📏 Measurements
 
 Measure Me can store common body measurements such as:
 
@@ -41,7 +41,7 @@ Measure Me can store common body measurements such as:
 
 Measurements can be updated over time, allowing you to keep a personal history instead of only storing your current values.
 
-## Clothing & Suit Sizes
+## 👕 Clothing & Suit Sizes
 
 Keep your clothing sizes in one place instead of having to remember them for every brand.
 
@@ -59,7 +59,7 @@ Examples include:
 
 Brand-specific sizing can also be stored when measurements or sizes differ between brands.
 
-## Shoes
+## 👟 Shoes
 
 Store information such as:
 
@@ -70,7 +70,7 @@ Store information such as:
 - Brand-specific sizes
 - Notes
 
-## Measurement History
+## 📈 Measurement History
 
 Measurements are not simply overwritten.
 
@@ -86,7 +86,7 @@ New measurement record
 Measurement history
 ```
 
-## Reminders
+## 🔔 Reminders
 
 Measure Me can remind you to update your measurements periodically.
 
@@ -99,7 +99,7 @@ For example:
 
 The goal is to make keeping your information up to date effortless.
 
-## Health Integrations
+## ❤️ Health Integrations
 
 Where supported, Measure Me may integrate with native health platforms:
 
@@ -110,7 +110,7 @@ Health integrations are optional and should only be used for data that makes sen
 
 The app should continue working normally without these integrations.
 
-## Technology
+## 🛠️ Technology
 
 - **Flutter**
 - **Dart**
@@ -119,7 +119,7 @@ The app should continue working normally without these integrations.
 - Android Health Connect
 - Local notifications
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Requirements
 
@@ -207,7 +207,7 @@ minute-level precision.
 - CSV export (measurements only) is one-way, meant for opening in a spreadsheet. Re-importing a
   full backup uses the JSON export/import pair instead.
 
-## Privacy
+## 🔒 Privacy
 
 Measure Me is designed around a **local-first** approach.
 
@@ -215,7 +215,7 @@ Personal measurements and sizing information should remain on the user's device 
 
 No account or cloud backend is required for the core experience.
 
-## Scope
+## 🎯 Scope
 
 Measure Me intentionally focuses on **measurements and sizing**.
 
