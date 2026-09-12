@@ -148,4 +148,4 @@ belong to a separate future Gym app.
 
 The purpose of Measure Me is simple:
 
-> **Measure. Track. Remember.**3
+> **Measure. Track. Remember.**
