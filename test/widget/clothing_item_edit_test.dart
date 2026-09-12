@@ -2,6 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:measure_me/data/database/app_database.dart';
 import 'package:measure_me/data/repositories/clothing_repository_impl.dart';
 import 'package:measure_me/domain/entities/clothing_item.dart';
@@ -10,13 +11,30 @@ import 'package:measure_me/presentation/screens/clothing/clothing_item_edit_scre
 
 import 'test_helpers.dart';
 
-Widget _wrap(AppDatabase db, {String? itemId}) {
-  return ProviderScope(
-    overrides: [appDatabaseProvider.overrideWithValue(db)],
-    child: MaterialApp(
-      home: ClothingItemEditScreen(itemId: itemId),
+/// The screen calls `context.pop()` on save/delete (go_router), so the test
+/// needs a real router ancestor, not just a bare [MaterialApp]. A base route
+/// gives the pushed edit route somewhere to pop back to, matching how it's
+/// actually reached in the app (pushed from the clothing list screen).
+Future<GoRouter> _pumpEditScreen(WidgetTester tester, AppDatabase db, {String? itemId}) async {
+  final router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(path: '/', builder: (context, state) => const Scaffold(body: SizedBox())),
+      GoRoute(path: '/edit', builder: (context, state) => ClothingItemEditScreen(itemId: itemId)),
+    ],
+  );
+
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [appDatabaseProvider.overrideWithValue(db)],
+      child: MaterialApp.router(routerConfig: router),
     ),
   );
+  await tester.pumpAndSettle();
+  router.push('/edit');
+  await tester.pumpAndSettle();
+
+  return router;
 }
 
 void main() {
@@ -24,13 +42,15 @@ void main() {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
 
-    await tester.pumpWidget(_wrap(db));
-    await tester.pumpAndSettle();
+    await _pumpEditScreen(tester, db);
 
     expect(find.text('Add clothing size'), findsOneWidget);
 
     await tester.enterText(find.widgetWithText(TextField, 'Brand (optional)'), 'SuitSupply');
     await tester.enterText(find.widgetWithText(TextField, 'Size'), '42R');
+    // The default category's measurement fields push the Save button below
+    // the fold; a real user would scroll, so the test does too.
+    await tester.scrollUntilVisible(find.text('Save'), 300);
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
 
@@ -46,9 +66,9 @@ void main() {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
 
-    await tester.pumpWidget(_wrap(db));
-    await tester.pumpAndSettle();
+    await _pumpEditScreen(tester, db);
 
+    await tester.scrollUntilVisible(find.text('Save'), 300);
     await tester.tap(find.text('Save'));
     await tester.pump();
 
@@ -73,8 +93,7 @@ void main() {
       updatedAt: now,
     ));
 
-    await tester.pumpWidget(_wrap(db, itemId: existing.id));
-    await tester.pumpAndSettle();
+    await _pumpEditScreen(tester, db, itemId: existing.id);
 
     expect(find.text('Edit clothing size'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'Brand (optional)'), findsOneWidget);

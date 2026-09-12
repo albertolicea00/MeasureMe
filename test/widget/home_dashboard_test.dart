@@ -22,6 +22,7 @@ void main() {
   testWidgets('shows "Add measurement" empty state for every card when nothing is recorded', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -36,6 +37,7 @@ void main() {
   testWidgets('shows the reminder card prompting to record a first measurement', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -49,6 +51,7 @@ void main() {
   testWidgets('shows quick actions for the core flows', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
 
     await tester.pumpWidget(_wrap(db));
     await tester.pumpAndSettle();
@@ -64,6 +67,7 @@ void main() {
   testWidgets('a recorded weight value replaces its empty state with the formatted value', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
     await MeasurementRepositoryImpl(db.measurementDao).addEntry(
       typeId: 'weight',
       valueCanonical: 82.4,

@@ -1,6 +1,20 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// Sizes the test surface like a real tall phone screen instead of
+/// `flutter_test`'s tiny 800x600 default. Sliver-based scroll views (any
+/// `CustomScrollView`/`SliverGrid`/`ListView`) only mount elements near the
+/// visible viewport, so content-heavy screens can otherwise fail to find
+/// widgets that a real, taller phone screen would simply show without
+/// scrolling. Call in a test that pumps such a screen; `tester.view` resets
+/// itself automatically between tests.
+void setPhoneViewport(WidgetTester tester) {
+  tester.view.physicalSize = const Size(430, 1600);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+}
+
 /// Unmounts the current widget tree and pumps once more.
 ///
 /// Drift's `.watch()` streams (used throughout this app's `StreamProvider`s)

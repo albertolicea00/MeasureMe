@@ -22,6 +22,7 @@ void main() {
   testWidgets('shows an empty state when the type has no recorded history', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
 
     await tester.pumpWidget(_wrap(db, 'chest'));
     await tester.pumpAndSettle();
@@ -35,6 +36,7 @@ void main() {
   testWidgets('shows current/previous/change once two entries exist', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
     final repo = MeasurementRepositoryImpl(db.measurementDao);
     await repo.addEntry(typeId: 'chest', valueCanonical: 100, timestamp: DateTime(2026, 8, 1));
     await repo.addEntry(typeId: 'chest', valueCanonical: 102, timestamp: DateTime(2026, 9, 12));
@@ -54,6 +56,7 @@ void main() {
   testWidgets('a single entry shows current value but no chart yet', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
+    setPhoneViewport(tester);
     await MeasurementRepositoryImpl(db.measurementDao).addEntry(
       typeId: 'waist',
       valueCanonical: 84,
