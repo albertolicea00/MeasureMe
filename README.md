@@ -234,6 +234,10 @@ Features such as:
 
 belong to a separate future Gym app.
 
-The purpose of Measure Me is simple:
+<p align="center">
 
-> **Measure. Track. Remember.**
+The purpose of Measure Me is simple
+
+**Measure. Track. Remember.**
+
+</p>
