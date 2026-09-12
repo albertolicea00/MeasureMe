@@ -41,12 +41,15 @@ class ReminderCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.notifications_active_outlined, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 8),
-                    Text(
-                      isDue ? 'Time to update your measurements' : 'Upcoming measurement reminder',
-                      style: Theme.of(context).textTheme.titleMedium,
+                    Expanded(
+                      child: Text(
+                        isDue ? 'Time to update your measurements' : 'Upcoming measurement reminder',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                   ],
                 ),

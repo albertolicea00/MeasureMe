@@ -133,10 +133,14 @@ class _ProgressBody extends ConsumerWidget {
               children: [
                 TrendIndicator(trend.direction),
                 const SizedBox(width: 6),
-                Text(
-                  '$sign${absChangeDisplay.toStringAsFixed(1)} $unitAbbr'
-                  '${pct != null ? '  (${pct >= 0 ? '+' : ''}${pct.toStringAsFixed(1)}%)' : ''}',
-                  style: Theme.of(context).textTheme.titleMedium,
+                Flexible(
+                  child: Text(
+                    '$sign${absChangeDisplay.toStringAsFixed(1)} $unitAbbr'
+                    '${pct != null ? '  (${pct >= 0 ? '+' : ''}${pct.toStringAsFixed(1)}%)' : ''}',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

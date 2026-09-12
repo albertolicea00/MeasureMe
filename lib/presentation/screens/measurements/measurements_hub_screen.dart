@@ -77,7 +77,7 @@ class MeasurementsHubScreen extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 1.5,
+                    childAspectRatio: 1.15,
                     children: [
                       for (final type in byCategory[category]!)
                         _TypeCard(type: type, unitSystem: unitSystem),

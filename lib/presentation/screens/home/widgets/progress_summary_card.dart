@@ -74,12 +74,24 @@ class _SummaryRow extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Row(
             children: [
-              SizedBox(width: 70, child: Text(type.displayName, style: theme.textTheme.bodyMedium)),
+              SizedBox(
+                width: 70,
+                child: Text(
+                  type.displayName,
+                  style: theme.textTheme.bodyMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               TrendIndicator(trend.direction),
               const SizedBox(width: 6),
-              Text(
-                '$sign${changeDisplay.toStringAsFixed(1)} $unitAbbr since last month',
-                style: theme.textTheme.bodyMedium,
+              Flexible(
+                child: Text(
+                  '$sign${changeDisplay.toStringAsFixed(1)} $unitAbbr since last month',
+                  style: theme.textTheme.bodyMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),

@@ -76,7 +76,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                     crossAxisCount: 2,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 1.5,
+                    childAspectRatio: 1.15,
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => _DashboardCard(type: shown[index]),

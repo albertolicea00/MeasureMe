@@ -47,9 +47,13 @@ class MeasurementValueCard extends StatelessWidget {
                   children: [
                     Icon(Icons.add_circle_outline, size: 18, color: theme.colorScheme.primary),
                     const SizedBox(width: 6),
-                    Text(
-                      'Add measurement',
-                      style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary),
+                    Flexible(
+                      child: Text(
+                        'Add measurement',
+                        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 )
@@ -57,11 +61,15 @@ class MeasurementValueCard extends StatelessWidget {
                 Text(
                   UnitConverter.format(latest!.valueCanonical, latest!.unit, unitSystem),
                   style: theme.textTheme.headlineSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   AppDateUtils.relativeToNow(latest!.timestamp),
                   style: theme.textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ],

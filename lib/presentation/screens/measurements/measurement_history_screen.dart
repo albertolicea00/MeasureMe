@@ -236,7 +236,14 @@ class _ChangeBlock extends StatelessWidget {
           children: [
             TrendIndicator(trend.direction),
             const SizedBox(width: 4),
-            Text('$sign${displayChange.toStringAsFixed(1)} $unitAbbr', style: Theme.of(context).textTheme.titleMedium),
+            Flexible(
+              child: Text(
+                '$sign${displayChange.toStringAsFixed(1)} $unitAbbr',
+                style: Theme.of(context).textTheme.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ],
