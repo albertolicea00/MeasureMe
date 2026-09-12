@@ -50,7 +50,7 @@ void main() {
     await tester.enterText(find.widgetWithText(TextField, 'Size'), '42R');
     // The default category's measurement fields push the Save button below
     // the fold; a real user would scroll, so the test does too.
-    await tester.scrollUntilVisible(find.text('Save'), 300);
+    await tester.scrollUntilVisible(find.text('Save'), 300, scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
 
@@ -68,7 +68,7 @@ void main() {
 
     await _pumpEditScreen(tester, db);
 
-    await tester.scrollUntilVisible(find.text('Save'), 300);
+    await tester.scrollUntilVisible(find.text('Save'), 300, scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Save'));
     await tester.pump();
 

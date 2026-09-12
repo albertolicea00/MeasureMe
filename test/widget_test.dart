@@ -1,61 +1,65 @@
-// Top-level smoke test: the real app widget (routing, theming, and the
-// startup gate all wired together) boots to onboarding for a fresh
-// install without throwing. Feature-specific widget tests live under
-// test/widget/.
-//
-// The database and notification plugin are overridden with in-memory /
-// fake implementations because `path_provider` and
-// `flutter_local_notifications` have no platform channel available under
-// plain `flutter_test`.
+// Top-level smoke test for the onboarding flow, the very first thing a
+// fresh install shows. Feature-specific widget tests for the four areas
+// called out in the spec (measurement entry, dashboard, measurement
+// history, clothing size entry) live under test/widget/.
 import 'package:drift/native.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:measure_me/data/database/app_database.dart';
-import 'package:measure_me/domain/entities/reminder.dart';
-import 'package:measure_me/integrations/notifications/notification_service.dart';
-import 'package:measure_me/presentation/app.dart';
 import 'package:measure_me/presentation/providers/database_provider.dart';
-import 'package:measure_me/presentation/providers/notification_providers.dart';
-
-class _FakeNotificationService implements NotificationService {
-  @override
-  Future<void> initialize() async {}
-
-  @override
-  Future<bool> hasPermission() async => false;
-
-  @override
-  Future<bool> requestPermission() async => false;
-
-  @override
-  Future<void> scheduleReminder(Reminder reminder) async {}
-
-  @override
-  Future<void> cancelReminder(String reminderId) async {}
-
-  @override
-  Future<void> reconcileAll(List<Reminder> reminders) async {}
-
-  @override
-  Stream<String> get onReminderTapped => const Stream.empty();
-}
+import 'package:measure_me/presentation/screens/onboarding/onboarding_screen.dart';
 
 void main() {
-  testWidgets('a fresh install boots to the onboarding flow', (tester) async {
+  testWidgets('onboarding shows the intro screens before collecting profile info', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          appDatabaseProvider.overrideWithValue(db),
-          notificationServiceProvider.overrideWithValue(_FakeNotificationService()),
-        ],
-        child: const MeasureMeApp(),
+        overrides: [appDatabaseProvider.overrideWithValue(db)],
+        child: const MaterialApp(home: OnboardingScreen()),
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('Know your measurements.'), findsOneWidget);
+    expect(find.text('Continue'), findsOneWidget);
+  });
+
+  testWidgets('completing onboarding saves the profile and unit preference', (tester) async {
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+
+    // The screen calls context.go('/home') (go_router) when finished, so a
+    // real router ancestor is needed, not just a bare MaterialApp.
+    final router = GoRouter(routes: [
+      GoRoute(path: '/', builder: (context, state) => const OnboardingScreen()),
+      GoRoute(path: '/home', builder: (context, state) => const Scaffold(body: SizedBox())),
+    ]);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [appDatabaseProvider.overrideWithValue(db)],
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    for (var i = 0; i < 4; i++) {
+      await tester.tap(find.text('Continue'));
+      await tester.pumpAndSettle();
+    }
+
+    expect(find.text('A little about you'), findsOneWidget);
+
+    await tester.enterText(find.widgetWithText(TextField, 'Nickname (optional)'), 'Alex');
+    await tester.tap(find.text('Get started'));
+    await tester.pumpAndSettle();
+
+    final profile = await db.profileDao.getProfile();
+    expect(profile.onboardingComplete, isTrue);
+    expect(profile.nickname, 'Alex');
   });
 }
