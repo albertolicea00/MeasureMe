@@ -40,7 +40,7 @@ class _RootShellState extends State<RootShell> {
           NavigationDestination(
             icon: Icon(Icons.straighten_outlined),
             selectedIcon: Icon(Icons.straighten),
-            label: 'Measurements',
+            label: 'Measure',
           ),
           NavigationDestination(
             icon: Icon(Icons.show_chart_outlined),
