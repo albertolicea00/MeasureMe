@@ -46,6 +46,9 @@ Before modifying code or generating features, read these authoritative documenta
 
 ## 🛠 Useful Commands for Agents
 
-- Run code generator (Drift / Riverpod): `flutter pub run build_runner build --delete-conflicting-outputs`
-- Run all tests: `flutter test`
-- Analyze codebase: `flutter analyze`
+- Run code generator (Drift / Riverpod): `dart run build_runner build --delete-conflicting-outputs` (or `make generate`)
+- Run all tests: `flutter test` (or `make test`)
+- Analyze codebase: `flutter analyze` (or `make analyze`)
+- First-time setup (pub get + codegen): `make setup`
+- Run every pre-PR check (format check, analyze, test): `make ci`
+- See the `Makefile` at the repo root (`make help`) for the full list of available targets.

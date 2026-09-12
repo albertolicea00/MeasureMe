@@ -47,6 +47,8 @@ Run the application:
 flutter run
 ```
 
+Shortcut: `make setup` runs `flutter pub get` plus the required Drift code generation step in one go (see the `Makefile` at the repo root; run `make help` for all available targets).
+
 ## Project Guidelines
 
 When contributing:
@@ -131,6 +133,8 @@ flutter test
 ```
 
 Pull requests should not introduce new analyzer warnings or failing tests.
+
+Shortcuts: `make format`, `make analyze`, `make test`, or `make ci` (runs all three checks in sequence) can be used in place of the raw commands above.
 
 ## Commits
 
