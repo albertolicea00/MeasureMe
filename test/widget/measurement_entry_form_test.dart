@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:measure_me/core/constants/measurement_units.dart';
 import 'package:measure_me/data/database/app_database.dart';
+import 'package:measure_me/data/repositories/measurement_repository_impl.dart';
 import 'package:measure_me/domain/entities/measurement_type.dart';
 import 'package:measure_me/presentation/providers/database_provider.dart';
-import 'package:measure_me/presentation/providers/repository_providers.dart';
 import 'package:measure_me/presentation/widgets/forms/measurement_entry_form_sheet.dart';
 
 void main() {
@@ -70,9 +70,7 @@ void main() {
   testWidgets('editing an existing entry updates that row instead of inserting a new one', (tester) async {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
-    final repo = ProviderContainer(overrides: [appDatabaseProvider.overrideWithValue(db)])
-        .read(measurementRepositoryProvider);
-    final existing = await repo.addEntry(
+    final existing = await MeasurementRepositoryImpl(db.measurementDao).addEntry(
       typeId: 'waist',
       valueCanonical: 90,
       timestamp: DateTime(2026, 1, 1),
