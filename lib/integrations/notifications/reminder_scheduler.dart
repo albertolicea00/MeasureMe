@@ -8,11 +8,21 @@ class ReminderScheduler {
   /// Computes the next fire date/time strictly after [from], based on the
   /// reminder's frequency and last-fired date. If the reminder has never
   /// fired, it's anchored to [Reminder.createdAt].
+  ///
+  /// Advances by whole calendar days (via the [DateTime] constructor's
+  /// day-overflow normalization) rather than by adding a [Duration] —
+  /// adding a fixed-length [Duration] repeatedly accumulates drift across
+  /// daylight-saving transitions, which would silently shift a reminder's
+  /// wall-clock time by an hour.
   static DateTime nextOccurrence(Reminder reminder, {required DateTime from}) {
     final intervalDays = reminder.intervalDays;
     final anchor = reminder.lastFiredAt ?? reminder.createdAt;
 
-    var candidate = DateTime(anchor.year, anchor.month, anchor.day, reminder.hour, reminder.minute);
+    DateTime atReminderTime(DateTime day) =>
+        DateTime(day.year, day.month, day.day, reminder.hour, reminder.minute);
+
+    var candidateDay = DateTime(anchor.year, anchor.month, anchor.day);
+    var candidate = atReminderTime(candidateDay);
 
     // If never fired, the very first occurrence is the anchor day itself
     // (if still in the future) rather than one interval later.
@@ -21,7 +31,8 @@ class ReminderScheduler {
     }
 
     while (!candidate.isAfter(from)) {
-      candidate = candidate.add(Duration(days: intervalDays));
+      candidateDay = DateTime(candidateDay.year, candidateDay.month, candidateDay.day + intervalDays);
+      candidate = atReminderTime(candidateDay);
     }
     return candidate;
   }
