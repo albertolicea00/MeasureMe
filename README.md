@@ -236,10 +236,10 @@ belong to a separate future Gym app.
 
 <hr/>
 
-<footer align="center">
+<div align="center">
 
 The purpose of MeasureMe is simple
 
 **Measure. Track. Remember.**
 
-</footer>
+</div>
