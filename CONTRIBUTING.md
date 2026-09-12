@@ -10,8 +10,9 @@ Contributions, bug reports, feature suggestions, and improvements are welcome.
 
 Please read:
 
-- `README.md` for the project scope.
+- `README.md` for the project overview.
 - `ARCHITECTURE.md` for the project scope and architecture.
+- `DESIGN.md` for the project design system.
 - `CODE_OF_CONDUCT.md` for community expectations.
 
 Keep in mind that Measure Me is intentionally focused on measurements and sizing. Workout tracking and gym functionality belong to a separate project.
