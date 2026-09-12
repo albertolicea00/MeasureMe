@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>MeasureMe can read your weight, height, and body fat percentage from Apple Health so they stay in sync with your measurement history.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>MeasureMe can save weight, height, and body fat percentage you record here to Apple Health.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
