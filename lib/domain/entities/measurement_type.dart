@@ -9,6 +9,23 @@ enum MeasurementCategory {
   custom,
 }
 
+extension MeasurementCategoryLabel on MeasurementCategory {
+  String get label {
+    switch (this) {
+      case MeasurementCategory.general:
+        return 'General';
+      case MeasurementCategory.upperBody:
+        return 'Upper body';
+      case MeasurementCategory.waistTorso:
+        return 'Waist / torso';
+      case MeasurementCategory.lowerBody:
+        return 'Lower body';
+      case MeasurementCategory.custom:
+        return 'Custom';
+    }
+  }
+}
+
 /// Describes a *kind* of measurement (e.g. "chest", "weight") independently
 /// from any recorded value. New types can be added by appending to the
 /// built-in catalog or by letting a user create a custom type — the
@@ -21,6 +38,8 @@ class MeasurementType {
   final String? instructions;
   final bool isCustom;
   final int sortOrder;
+  final bool isFavorite;
+  final bool isTracked;
 
   const MeasurementType({
     required this.id,
@@ -30,6 +49,8 @@ class MeasurementType {
     this.instructions,
     this.isCustom = false,
     this.sortOrder = 0,
+    this.isFavorite = false,
+    this.isTracked = true,
   });
 
   MeasurementType copyWith({
@@ -39,6 +60,8 @@ class MeasurementType {
     String? instructions,
     bool? isCustom,
     int? sortOrder,
+    bool? isFavorite,
+    bool? isTracked,
   }) {
     return MeasurementType(
       id: id,
@@ -48,6 +71,8 @@ class MeasurementType {
       instructions: instructions ?? this.instructions,
       isCustom: isCustom ?? this.isCustom,
       sortOrder: sortOrder ?? this.sortOrder,
+      isFavorite: isFavorite ?? this.isFavorite,
+      isTracked: isTracked ?? this.isTracked,
     );
   }
 }

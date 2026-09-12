@@ -41,6 +41,8 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
       instructions: row.instructions,
       isCustom: row.isCustom,
       sortOrder: row.sortOrder,
+      isFavorite: row.isFavorite,
+      isTracked: row.isTracked,
     );
   }
 
